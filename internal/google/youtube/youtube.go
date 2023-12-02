@@ -11,6 +11,7 @@ import (
 	"os/user"
 	"path/filepath"
 	"strings"
+	"twsati/internal/sys"
 
 	"golang.org/x/net/context"
 	"golang.org/x/oauth2"
@@ -36,8 +37,10 @@ func init() {
 // then generate a Client. It returns the generated Client.
 func getClient(scope string) *http.Client {
 	ctx := context.Background()
+	usr, err := user.Current()
+	sys.CheckErr(err)
 
-	b, err := ioutil.ReadFile("client_secret.json")
+	b, err := ioutil.ReadFile(filepath.Join(usr.HomeDir, "client_secret.json"))
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
 	}

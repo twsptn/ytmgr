@@ -19,7 +19,11 @@ type base64Loader struct {
 }
 
 func (base64Loader) Open(configFile string) (io.ReadCloser, error) {
-
+	/*
+	 windows system use '\' as file separator
+	 replace them with '/' to work with zipped archive
+	*/
+	configFile = strings.ReplaceAll(configFile, `\`, `/`)
 	fmt.Println(configFile)
 	return io.NopCloser(bytes.NewReader(openZippedFile(configFile))), nil
 }

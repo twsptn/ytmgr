@@ -15,6 +15,7 @@ import (
 	"strings"
 	"time"
 	"twsati/internal/naming"
+	"twsati/internal/sys"
 
 	"golang.org/x/oauth2"
 	"golang.org/x/oauth2/google"
@@ -190,9 +191,11 @@ func init() {
 
 func getClient(scope string) *http.Client {
 	ctx := context.Background()
+	usr, err := user.Current()
+	sys.CheckErr(err)
 	// driveService, err := drive.NewService(ctx)
 
-	b, err := ioutil.ReadFile("client_secret_drive.json")
+	b, err := ioutil.ReadFile(filepath.Join(usr.HomeDir, "client_secret_drive.json"))
 	if err != nil {
 		log.Fatalf("Unable to read client secret file: %v", err)
 	}
