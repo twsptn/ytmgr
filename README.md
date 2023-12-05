@@ -14,16 +14,16 @@ __以下部分需要 google api 身份驗證設置__
 請將 __client_secret.json__, __client_secret_drive.json__ 和 __.credentials__ 資料夾放在使用者的主資料夾(Home)中
 
 ## 上傳
-.\youtube.exe -upload [檔案名稱]
+.\youtube.exe -upload [影片名稱]
 
 ## 上傳封面
-.\youtube.exe -uploadCover [檔案名稱]
+.\youtube.exe -uploadCover [影片名稱]
 
 ## 上傳字幕
-.\youtube.exe -caption [檔案名稱]
+.\youtube.exe -caption [影片名稱]
 
 ## 隱藏視頻
-.\youtube.exe -unlist [檔案名稱]
+.\youtube.exe -unlist [影片名稱]
 
 ## 發布
-.\youtube.exe -publish [檔案名稱]
+.\youtube.exe -publish [影片名稱]
