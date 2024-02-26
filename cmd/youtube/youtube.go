@@ -151,12 +151,32 @@ func youtubeUpload(name string, overWriteExisting bool) {
 
 }
 
+func youtubeDelete(name string) {
+	vmeta := drapi.GetVideoMeta(name)
+	// vmeta.SetTempDir(`C:\Users\kaile\AppData\Local\Temp\生命中別投降別氣餒2919784654`)
+	defer vmeta.CleanUp()
+	// ytapi.UploadVideo()
+	if vmeta.VideoId != nil && len(strings.TrimSpace(*vmeta.VideoId)) > 0 {
+		ytapi.DeleteVideo(*vmeta.VideoId)
+
+		setSptr(&vmeta.VideoId, "")
+		setSptr(&vmeta.CaptionId, "")
+		setSptr(&vmeta.Privacy, "")
+		drapi.UpdateVideoMeta(vmeta)
+	} else {
+		panic("unable to delete video: " + name)
+	}
+	fmt.Println("successfully deleted video: " + *vmeta.VideoId)
+
+}
+
 var helloFlag = flag.Bool("hello", false, "hello")
 var dumpFlag = flag.String("dump", "", "video clip name")
 var setMetaFlag = flag.String("setMeta", "", "video clip name")
 var metaKeys = flag.String("metaKeys", "", "CaptionId=xxxx;VideoId=xxxx;Privacy=xxx")
 var uploadFlag = flag.String("upload", "", "video clip name")
 var reUploadFlag = flag.String("reUpload", "", "video clip name")
+var deleteFlag = flag.String("delete", "", "video clip name")
 var uploadCoverFlag = flag.String("uploadCover", "", "video clip name")
 var captionFlag = flag.String("caption", "", "video clip name")
 var captionDeleteFlag = flag.String("captionDelete", "", "video clip name")
@@ -198,6 +218,8 @@ func main() {
 		youtubeUpload(*uploadFlag, false)
 	} else if *reUploadFlag != "" {
 		youtubeUpload(*reUploadFlag, true)
+	} else if *deleteFlag != "" {
+		youtubeDelete(*deleteFlag)
 	} else if *uploadCoverFlag != "" {
 		youtubeUploadCover(*uploadCoverFlag)
 	} else if *captionFlag != "" {
